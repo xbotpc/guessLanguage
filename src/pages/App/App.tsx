@@ -35,7 +35,7 @@ const App = () => {
   useEffect(() => {
     getRandomLanguage();
     if (window.screen.width < 500) {
-      document.getElementsByTagName('input')[0].click();
+      document.getElementsByTagName('input')[0].focus();
     }
   }, []);
 
