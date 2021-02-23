@@ -33,10 +33,13 @@ const App = () => {
 
   useEffect(() => {
     getRandomLanguage();
+    if (window.screen.width < 500) {
+      prompt();
+    }
   }, []);
 
   const onKeyPressListener = useCallback((e: KeyboardEvent) => {
-    if (e.key >= 'a' && e.key <= 'z') {
+    if ((e.key >= 'a' && e.key <= 'z') || e.key === '#') {
       if (incorrectKeyPressCount < 6) {
         const _charactersEntered = [...new Set([...uniqueCharactersEntered, e.key])];
         if (!currentLanguage.match(e.key.toLowerCase().toString())) {
@@ -107,9 +110,21 @@ const App = () => {
     return strikes;
   }
 
+  const renderLoadingIndicator = () => {
+    return (
+      <div className={styles.loadingIndicatorContainer}>
+        <div>.</div>
+        <div>.</div>
+        <div>.</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <main>
+        <h1>Guess the language</h1>
+        <h4>Start typing {renderLoadingIndicator()}</h4>
         {gameWon || incorrectKeyPressCount > 5
           ? null
           : <div className={styles.guessStrikes}>
