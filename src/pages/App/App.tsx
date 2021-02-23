@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.scss';
 import cx from 'classnames';
+import { NONAME } from 'dns';
 
 const languages = [
   'javascript',
@@ -34,7 +35,7 @@ const App = () => {
   useEffect(() => {
     getRandomLanguage();
     if (window.screen.width < 500) {
-      prompt();
+      document.getElementsByTagName('input')[0].click();
     }
   }, []);
 
@@ -144,6 +145,7 @@ const App = () => {
             <button onClick={onClick}>{gameWon ? 'Guess More' : 'Try again'}</button>
           </section>
           : null}
+        <input type="text" style={{ display: "none" }} />
       </main>
     </>
   )
