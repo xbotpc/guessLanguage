@@ -37,7 +37,7 @@ const App = () => {
   }, []);
 
   const onKeyPressListener = useCallback((e: KeyboardEvent) => {
-    if ((e.key >= 'a' && e.key <= 'z') || e.key === '#') {
+    if ((e.key >= 'a' && e.key <= 'z') || e.key === '#' || e.key === ' ') {
       if (incorrectKeyPressCount < 6) {
         const _charactersEntered = [...new Set([...uniqueCharactersEntered, e.key])];
         if (!currentLanguage.match(e.key.toLowerCase().toString())) {
@@ -59,7 +59,7 @@ const App = () => {
   }, [currentLanguage, uniqueCharactersEntered, incorrectKeyPressCount])
 
   const onKeyClick = () => {
-    alert('here');
+    // alert('here');
     if (window.screen.width < 500) {
       const aa = document.getElementsByTagName('input')[0]
       aa.focus();
@@ -132,25 +132,33 @@ const App = () => {
     <>
       <main>
         <h1>Guess the language</h1>
-        <h4>Start typing {renderLoadingIndicator()}</h4>
+        {gameWon || incorrectKeyPressCount > 5
+          ? null
+          : <h4>Start typing {renderLoadingIndicator()}</h4>
+        }
         {gameWon || incorrectKeyPressCount > 5
           ? null
           : <div className={styles.guessStrikes}>
             {renderStrikes()}
           </div>
         }
-        <div className={styles.container}>
-          {renderLanguage()}
-        </div>
         {gameWon || incorrectKeyPressCount > 5 ?
           <section className={cx({ [styles.gameWon]: gameWon })}>
             {gameWon
               ? 'Congrats! You guessed correct.'
               : incorrectKeyPressCount > 5
-                ? 'Oops.'
+                ? 'Oops. Its'
                 : null}
-            <button onClick={onClick}>{gameWon ? 'Guess More' : 'Try again'}</button>
           </section>
+          : null}
+        <div className={cx(styles.container, {
+          [styles.lose]: incorrectKeyPressCount > 5,
+          [styles.win]: gameWon
+        })}>
+          {renderLanguage()}
+        </div>
+        {gameWon || incorrectKeyPressCount > 5
+          ? <button onClick={onClick}>{gameWon ? 'Guess More' : 'Try again'}</button>
           : null}
         <input type="text" style={{ visibility: 'hidden' }} />
       </main>
