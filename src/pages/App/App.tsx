@@ -34,12 +34,6 @@ const App = () => {
 
   useEffect(() => {
     getRandomLanguage();
-    alert(window.screen.width);
-    if (window.screen.width < 500) {
-      const aa = document.getElementsByTagName('input')[0]
-      aa.focus();
-      aa.click();
-    }
   }, []);
 
   const onKeyPressListener = useCallback((e: KeyboardEvent) => {
@@ -64,8 +58,18 @@ const App = () => {
     }
   }, [currentLanguage, uniqueCharactersEntered, incorrectKeyPressCount])
 
+  const onKeyClick = () => {
+    alert('here');
+    if (window.screen.width < 500) {
+      const aa = document.getElementsByTagName('input')[0]
+      aa.focus();
+      aa.click();
+    }
+  }
+
   useEffect(() => {
     window.addEventListener('keypress', onKeyPressListener);
+    window.addEventListener('click', onKeyClick)
     return () => window.removeEventListener('keypress', onKeyPressListener);
   }, [onKeyPressListener]);
 
@@ -148,7 +152,7 @@ const App = () => {
             <button onClick={onClick}>{gameWon ? 'Guess More' : 'Try again'}</button>
           </section>
           : null}
-        <input type="text" style={{ display: "none" }} />
+        <input type="text" style={{ visibility: 'hidden' }} />
       </main>
     </>
   )
