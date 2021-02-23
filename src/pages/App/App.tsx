@@ -58,20 +58,24 @@ const App = () => {
     }
   }, [currentLanguage, uniqueCharactersEntered, incorrectKeyPressCount])
 
-  const onKeyClick = () => {
-    // alert('here');
+  const onKeyClick = useCallback(() => {
+    console.log('window click');
     if (window.screen.width < 500) {
+      console.log('window click1');
       const aa = document.getElementsByTagName('input')[0]
       aa.focus();
       aa.click();
     }
-  }
+  }, [])
 
   useEffect(() => {
     window.addEventListener('keypress', onKeyPressListener);
     window.addEventListener('click', onKeyClick)
-    return () => window.removeEventListener('keypress', onKeyPressListener);
-  }, [onKeyPressListener]);
+    return () => {
+      window.removeEventListener('keypress', onKeyPressListener);
+      window.removeEventListener('click', onKeyClick)
+    }
+  }, [onKeyPressListener, onKeyClick]);
 
   const getRandomLanguage = () => {
     const randomNumber = Math.random() * 20;
@@ -128,6 +132,10 @@ const App = () => {
     )
   }
 
+  const onfocus = () => {
+    console.log('herer')
+  }
+
   return (
     <>
       <main>
@@ -160,7 +168,7 @@ const App = () => {
         {gameWon || incorrectKeyPressCount > 5
           ? <button onClick={onClick}>{gameWon ? 'Guess More' : 'Try again'}</button>
           : null}
-        <input type="text" style={{ visibility: 'hidden' }} />
+        <input id={styles.invi} type="text" onFocus={onfocus} onClick={onfocus} />
       </main>
     </>
   )
