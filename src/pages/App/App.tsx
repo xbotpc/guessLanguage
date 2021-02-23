@@ -34,6 +34,7 @@ const App = () => {
 
   useEffect(() => {
     getRandomLanguage();
+    alert(window.screen.width);
     if (window.screen.width < 500) {
       document.getElementsByTagName('input')[0].focus();
     }
