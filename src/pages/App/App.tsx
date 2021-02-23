@@ -36,7 +36,9 @@ const App = () => {
     getRandomLanguage();
     alert(window.screen.width);
     if (window.screen.width < 500) {
-      document.getElementsByTagName('input')[0].focus();
+      const aa = document.getElementsByTagName('input')[0]
+      aa.focus();
+      aa.click();
     }
   }, []);
 
